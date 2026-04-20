@@ -86,37 +86,5 @@ SQL-based analysis of 107K credit card transactions (2019–2021) to uncover spe
 
 ---
 
-## How to Run
 
-1. Open terminal and connect to MySQL:
-```bash
-mysql -u root -p --local-infile=1
-```
 
-2. Run `CREATE DATABASE` and `CREATE TABLE` sections
-
-3. Import the CSV:
-```sql
-SET GLOBAL local_infile=1;
-USE credit_card_analysis;
-
-LOAD DATA LOCAL INFILE '/path/to/credit_card_transactions.csv'
-INTO TABLE transactions
-FIELDS TERMINATED BY ','
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS
-(@dummy, trans_datetime, category, amt, gender, city, state, city_pop, job, dob, is_fraud);
-```
-
-4. Run cleaning steps, then execute queries section by section
-
----
-
-## Resume Description
-
-> Analyzed 107K credit card transactions using MySQL to identify spending patterns, fraud hotspots by category and time of day, and high-risk transaction profiles — generating actionable recommendations for fraud prevention and targeted marketing strategies.
-
----
-
-*Built as part of a FinTech product analytics portfolio demonstrating SQL-based fraud and spending analysis.*
