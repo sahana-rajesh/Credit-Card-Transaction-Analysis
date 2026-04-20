@@ -30,13 +30,6 @@ CREATE TABLE transactions (
     is_fraud             TINYINT
 );
 
--- Import via terminal:
--- Step 1: Connect with local infile enabled
---   mysql -u root -p --local-infile=1
--- Step 2: Enable local infile
---   SET GLOBAL local_infile=1;
--- Step 3: Run LOAD DATA command below
-
 LOAD DATA LOCAL INFILE '/path/to/credit_card_transactions.csv'
 INTO TABLE transactions
 FIELDS TERMINATED BY ','
