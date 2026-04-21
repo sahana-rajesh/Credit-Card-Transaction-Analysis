@@ -9,14 +9,15 @@
 
 ## Project Overview
 
-SQL-based analysis of 107K credit card transactions (2019–2021) to uncover spending behavior, detect fraud patterns, and generate actionable recommendations for marketing and risk teams.
+SQL-based analysis of 107K credit card transactions (2019–2021) to uncover spending behavior, detect fraud patterns, and generate actionable recommendations for marketing and risk teams. Demonstrates a range of SQL techniques including aggregations, window functions, CTEs, and JOINs.
 
 **Key business questions answered:**
 - Which categories and states drive the most revenue?
 - Which categories are fraud hotspots?
 - When is fraud most likely to occur?
 - What does a fraudulent transaction look like vs a legitimate one?
-- Are larger cities more prone to fraud?
+- Which U.S. regions carry the highest fraud risk?
+- Which months had unusual fraud spikes?
 
 ---
 
@@ -42,7 +43,7 @@ SQL-based analysis of 107K credit card transactions (2019–2021) to uncover spe
 
 ---
 
-## Key Findings
+## Key Results
 
 | Metric | Value |
 |---|---|
@@ -55,33 +56,57 @@ SQL-based analysis of 107K credit card transactions (2019–2021) to uncover spe
 
 ---
 
-## Analysis & Business Recommendations
+## Queries
 
-**Fraud Hotspots by Category**
-- `shopping_net` (1.54%) and `misc_net` (1.50%) have the highest fraud rates
-- Online categories need stricter 2FA verification
-- Gas transactions show micro-fraud pattern ($541 total) — likely test transactions before larger fraud
-
-**Late Night Fraud Surge**
-- Hours 22–23 have **2.44–2.76% fraud rate** — nearly 5x higher than daytime
-- Recommendation: Trigger automatic verification for all transactions between 10pm–2am
-
-**Fraudsters Spend 8x More**
-- Avg fraud transaction = **$544** vs legitimate = **$67**
-- Max fraud = **$1,313** — fraudsters stay below a threshold to avoid detection
-- Recommendation: Flag transactions above $500 in high-risk categories for manual review
-
-**Geography**
-- TX, NY, PA are the top 3 revenue states — prioritize marketing budget here
-- OH (1.12%) and MI (0.90%) have the highest state-level fraud rates
-- Small cities have **higher fraud rates than metro areas** (0.55% vs 0.38%) — rural customers need fraud education
-
-**Seasonality**
-- June, October, December are peak spending months
-- December consistently shows the highest fraud count — increase Q4 monitoring
-
-**High-Value Customers**
-- Travel dominates high-value transactions (up to $28,948) — all legitimate
-- These premium customers should receive concierge-level service and card benefits
+| # | Query | Technique |
+|---|---|---|
+| 1 | Data overview — total transactions, revenue, date range | Aggregation |
+| 2 | Fraud vs legitimate split | Window function |
+| 3 | Spending by category | GROUP BY, ORDER BY |
+| 4 | Fraud rate by category | CASE WHEN, aggregation |
+| 5 | Spending and fraud by gender | GROUP BY |
+| 6 | Top 10 states by revenue and fraud rate | GROUP BY, LIMIT |
+| 7 | Fraud patterns by hour of day | HOUR(), GROUP BY |
+| 8 | Monthly spending and fraud trend | DATE_FORMAT(), GROUP BY |
+| 9 | Fraud vs legitimate amount analysis | GROUP BY, MIN/MAX/AVG |
+| 10 | Executive summary dashboard | UNION ALL |
+| 11 | Flag high-risk categories vs average fraud rate | **CTE** |
+| 12 | Identify months with fraud spikes above average | **CTE** |
+| 13 | Fraud and spend analysis by U.S. region | **JOIN** |
 
 ---
+
+## Business Recommendations
+
+**Fraud Prevention**
+- Online categories (`shopping_net` 1.54%, `misc_net` 1.50%) are the highest fraud risk — apply stricter 2FA verification
+- Transactions between **10pm–2am** are 5x more likely to be fraudulent — trigger automatic verification during these hours
+- Fraudulent transactions average **8x higher spend** ($544 vs $67) — flag any transaction above $500 in high-risk categories for manual review
+- December consistently shows the highest fraud activity — increase monitoring and review team capacity in Q4
+
+**Marketing Strategy**
+- **TX, NY, PA** are the top 3 revenue states — prioritize marketing budget and merchant partnerships here
+- **Grocery and shopping** categories drive the most revenue — prime candidates for cashback offers and loyalty rewards
+- Peak transaction volume occurs between **12pm–9pm** — optimal window for push notifications and promotional campaigns
+- June, October, and December are seasonal spending peaks — align campaigns with these months
+
+**Regional Risk Strategy**
+- Regions with above-average fraud rates need stricter real-time monitoring rules and localized fraud alert campaigns
+- High revenue, low fraud regions are ideal targets for premium card feature rollouts and loyalty program expansion
+
+---
+
+## SQL Techniques Demonstrated
+
+- Aggregations — `SUM`, `AVG`, `MIN`, `MAX`, `COUNT`
+- Filtering — `WHERE`, `HAVING`
+- Grouping & sorting — `GROUP BY`, `ORDER BY`
+- Window functions — `SUM() OVER()`
+- Date functions — `HOUR()`, `DATE_FORMAT()`, `YEAR()`, `DATE_ADD()`
+- Conditional logic — `CASE WHEN`
+- CTEs — `WITH` clause for multi-step logic
+- JOINs — `JOIN` with a lookup table for regional mapping
+- Set operations — `UNION ALL`
+
+---
+
